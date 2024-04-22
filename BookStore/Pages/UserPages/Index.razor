@@ -1,0 +1,53 @@
+﻿@page "/"
+@page "/index"
+@using BookStore.Services;
+
+@inject IBooksService booksService
+
+<PageTitle>Book Store</PageTitle>
+
+<h1>Books Store</h1>
+
+@foreach (var item in books)
+{
+    <BookCard Book="item" OnAddToCartClicked="AddToCart" />
+}
+
+<br />
+
+<h1>Shopping Cart</h1>
+<p>Books Count: @shoppingCart.Count</p>
+<p>Total Price: @shoppingCart.Sum(x => x.Price)</p>
+
+
+<ModalPopup Title="Test Title" IsOpen="true">
+    <ChildContent>
+        <p>
+            Welcome to our Books Store, here you will
+            find a huge collection of <i>books</i> to help you
+            build you career in software development,
+            enjoy it!
+        </p>
+    </ChildContent>
+    <FooterContent>
+        <button class="btn btn-primary">
+            Discover It
+        </button>
+    </FooterContent>
+</ModalPopup>
+
+
+@code {
+    List<Book> books;
+    List<Book> shoppingCart = new();
+
+    public void AddToCart(Book book)
+    {
+        shoppingCart.Add(book);
+    }
+
+    protected override void OnInitialized()
+    {
+        books = booksService.GetBooks();
+    }
+}

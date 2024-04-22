@@ -1,0 +1,24 @@
+﻿
+
+<div style="border:1px solid black; padding:3px" class="card">
+    <h6>@Book.Title</h6>
+    <p>Author: @Book.AuthorName</p>
+    <p>Publishing Date: @Book.PublishingDate</p>
+    <p>Price: @Book.Price</p>
+    <button @onclick="AddToCart" style="width:100%" class="main-button">Add to Cart</button>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public Book? Book { get; set; }
+
+    [Parameter]
+    public EventCallback<Book> OnAddToCartClicked { get; set; }
+
+    private void AddToCart()
+    {
+        OnAddToCartClicked.InvokeAsync(Book);
+    }
+}
